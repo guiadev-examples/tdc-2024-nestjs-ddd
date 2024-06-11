@@ -1,73 +1,116 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# ecommerce-service
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Guia Dev - Backend de serviço com as implementações referentes ao projeto de exemplo de NestJS + DDD para um domínio de ecommerce.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Arquitetura e stack
 
-## Description
+- **Visão da solução**: acesse o [Modelo de domínio]() e a [Visão de Plataforma]() para compreender a **solução como um todo** e onde este projeto se encaixa.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Macro arquitetura**: acesse o [Desenho de arquitetura da solução]() para compreender a **macro arquitetura da plataforma** e onde este projeto se encaixa.
 
-## Installation
+- **Micro arquitetura**: Abaixo segue figura ilustrando as organização de camadas do projeto. Maiores detalhes acesse a documentação sobre [camadas e padrões de arquitetura]() para compreender como está organizado este projeto.
 
-```bash
-$ npm install
+```mermaid
+graph TD;
+    Application-->Infra;
+    Application-->Domain;
+    Domain-->Infra;
+    Domain-->Integration;
+    Integration-->Infra;
+    Infra-->Config;
 ```
 
-## Running the app
+- Detalhes da stack e integrações:
+    - A implementação é feita em [TypeScript](https://www.typescriptlang.org/) rodando sobre [Node 19](https://nodejs.org/).
+    - Uso do framework [NestJs 10.*](https://nestjs.com/).
+    - Persistência de dados é feita em um banco [PostgreSQL 14.*](https://www.postgresql.org/).
+    - As bibliotecas utilizadas pelo projeto podem ser vista no arquivo [package.json](package.json) que está na raiz do projeto.
+
+---
+
+## Execução do projeto/sistema
+
+### Via docker-compose
+
+O projeto está configurado para execução com [docker-compose](https://docs.docker.com/compose/), onde já estão configuradas variáveis de ambiente e demais dependências. Para rodar o projeto, utilize:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# Para subir a aplicação
+docker-compose up app
 ```
-
-## Test
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# Para executar os testes
+docker-compose up test
 ```
 
-## Support
+```bash
+# Para executar os testes de Stress
+docker-compose up stress-test
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+# Para executar acesso ao console e rodar qualquer comando NPM desejado
+docker-compose run --rm console
+```
 
-## Stay in touch
+```bash
+# Para executar apenas as ferramentas auxiliares como banco de dados, cache, mensageria, etc...
+docker-compose --profile tools up
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Localmente via nodejs:
 
-## License
+Em ambiente local ou de testes, o serviço utiliza variáveis de ambiente que podem ser definidas no arquivo `.env`. 
+Tal arquivo pode ser criado a partir do exemplo `.env.example`.
 
-Nest is [MIT licensed](LICENSE).
+É obrigatório informar as envs (lembrando que via docker-compose isso não é necessário):
+- DATABASE_URL: Exemplo `postgres://postgres:postgres@localhost:5432/ecommerce-service`.
+- API_PRIVATE_KEY: API Key usada pelos clients da API. Exemplo `ab04300a-4847-4f62-a3d1-fc1cca0e4391`.
+
+Sugere-se o uso de docker-compose para subir o banco de dados, através do comando:
+```bash
+# Para executar apenas as ferramentas auxiliares como banco de dados, cache, mensageria, etc...
+docker-compose --profile tools up
+```
+
+#### Para rodar o projeto, utilize:
+
+```bash
+# Para subir a aplicação
+npm run start
+```
+
+```bash
+# Para executar os testes
+npm run test
+```
+Ou 
+```bash
+# Para executar os testes com relatórios de teste e cobertura
+npm run test:cov
+```
+
+---
+## Alterações, testes e validação
+
+Toda alteração no código deve ser realizada respeitando o processo ${\color{red}[DETALHAR]}$.
+
+O testes automatizados são executados através da ferramenta [jest](https://jestjs.io/), e podem ser executados conforme instruções na seção anterior.
+Após execução dos testes, é gerado no diretório `report` os relatórios:
+- coverage (cobertura de código): `/report/coverage/lcov-report/index.html`.
+- tests (resultados dos testes): `/report/test.html`.
+
+Quando executado os testes de stress, via docker-compose, no diretório `report` também é gerado um relatório com o resultado dos testes em: `/report/stress-test.html`.
+
+No processo de CI, tais relatórios podem ser visualizados através do Pull Request criado para a alteração, ou ainda nas actions executadas (Aba Actions do github).
+
+Para validar e chamar as API's manualmente acesse a página com o [Swagger](https://swagger.io/):
+- Local: [http://localhost:3000/apidoc](http://localhost:3000/apidoc)
+- Ambientes publicados: escolha o ambiente desejado em [deployments](../../deployments)
+
+---
+
+## Atualização e monitoramento.
+
+${\color{red}[DETALHAR]}$

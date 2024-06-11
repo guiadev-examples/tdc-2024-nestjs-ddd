@@ -1,0 +1,133 @@
+services:     
+  app:
+    profiles: 
+      - app
+    build:
+      context: .
+      target: development
+    volumes:
+        - ./:/home/node/app
+    networks:
+      - network
+    ports:
+      - '3000:3000'
+    command: >
+        sh -c "
+        npm install &&
+        npm run start:dev"
+    env_file: .env.docker
+    depends_on:
+      - localstack
+      - postgres
+
+  test:
+    profiles: 
+      - test
+    build:
+      context: .
+      target: development
+    volumes:
+        - ./:/home/node/app
+    networks:
+      - network
+    command: >
+        sh -c "
+        npm install &&
+        npm run test:cov -- --detectOpenHandles"
+    env_file: 
+      - .env.docker
+      - test/.env.test
+    depends_on:
+      - localstack
+      - postgres
+
+  console:
+    profiles: 
+      - console
+    build:
+      context: .
+      target: development
+    volumes:
+        - ./:/home/node/app
+    networks:
+      - network
+    command: /bin/bash
+    env_file: .env.docker
+    depends_on:
+      - localstack
+      - postgres
+
+  app-production-mode:
+    profiles: 
+      - app-production-mode      
+    mem_limit: 5120m
+    mem_reservation: 4096m
+    build:
+      context: .
+      target: production
+    networks:
+      - network
+    ports:
+      - '3000:3000'    
+    env_file: .env.docker
+    depends_on:
+      - localstack
+      - postgres
+
+  postgres:
+    profiles: 
+      - app
+      - test
+      - console
+      - app-production-mode
+      - tools
+    image: postgres:15
+    networks:
+      - network
+    volumes:
+      - myapp-data:/var/lib/postgresql
+      - ./test/utils/create-test-database.sh:/docker-entrypoint-initdb.d/create-test-database.sh
+    ports:
+      - '5432:5432'
+    env_file: .env.docker
+
+  localstack:
+    profiles: 
+      - app
+      - test
+      - console
+      - app-production-mode
+      - tools
+    image: localstack/localstack:latest
+    networks:
+      - network
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "./test/utils/aws-resources-seed.sh:/etc/localstack/init/ready.d/aws-resources-seed.sh"
+      # - "./.localstack:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"      
+
+  adminer:
+    profiles: 
+      - app      
+      - console
+      - tools
+    image: adminer
+    networks:
+      - network
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+
+networks:
+  network:    
+
+volumes:
+  myapp-data:
+

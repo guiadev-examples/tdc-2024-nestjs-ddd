@@ -1,0 +1,47 @@
+{
+  "rootDir": "../",
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "testRegex": ".spec.ts$",
+  "testEnvironment": "node",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "@config/(.*)": "<rootDir>/src/config/$1",
+    "@infra/(.*)": "<rootDir>/src/infra/$1",
+    "@integration/(.*)": "<rootDir>/src/integration/$1",
+    "@domain/(.*)": "<rootDir>/src/domain/$1"
+  },
+  "globalSetup": "<rootDir>/test/jest.setup.ts",
+  "collectCoverageFrom": [
+    "src/**/*.(t|j)s"
+  ],
+  "coveragePathIgnorePatterns": [    
+    "<rootDir>/src/main.ts",
+    "<rootDir>/src/infra/database/migrations"
+],
+  "coverageDirectory": "./report/coverage",
+  "coverageReporters": [
+    "text-summary",
+    "lcov",
+    "cobertura"
+  ],
+  "reporters": [
+    "default",
+    [
+      "jest-junit",
+      {
+        "suiteName": "Test Reports",
+        "outputDirectory": "<rootDir>/report",
+        "outputName": "test-report.xml"
+      }
+    ],
+    [
+      "./node_modules/jest-html-reporter",
+      {
+        "pageTitle": "Test Report",
+        "outputPath": "./report/test.html"
+      }
+    ]
+  ]
+}
