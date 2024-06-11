@@ -25,7 +25,7 @@ export class AwsEventBusService implements EventBusService {
   private static resourcesToCheck: {
     topics: string[];
     queues: string[];
-  };
+  } = { topics: [], queues: [] };
 
   constructor(private configService: ConfigService) {
     const awsCredentials = {
@@ -122,10 +122,6 @@ export class AwsEventBusService implements EventBusService {
   }
 
   registerToCheck(resource: Resource) {
-    if (!AwsEventBusService.resourcesToCheck) {
-      AwsEventBusService.resourcesToCheck = { topics: [], queues: [] };
-    }
-
     if (resource.topic) {
       AwsEventBusService.resourcesToCheck.topics.push(
         this.topicName(resource.topic),
