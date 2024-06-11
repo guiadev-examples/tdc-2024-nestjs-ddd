@@ -8,7 +8,7 @@ import { Order } from './order.entity';
 import { Product } from '@domain/stock/product.entity';
 
 @Entity({
-  name: 'payment_methods',
+  name: 'order_items',
 })
 export class OrderItem extends TimestampableMixin(BaseSequencialIDEntity) {
   constructor(partial?: Partial<OrderItem>) {
