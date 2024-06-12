@@ -10,4 +10,4 @@ import { OrderItemService } from './order-item.service';
     providers: [OrderService, OrderItemService],
     exports: [OrderService, OrderItemService],
 })
-export class SalesModule {}
+export class SalesContextModule {}

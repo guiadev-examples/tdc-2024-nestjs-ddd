@@ -360,6 +360,12 @@ module.exports = {
            for details and some examples. If you don't specify a theme
            don't worry - dependency-cruiser will fall back to the default one.
         */
+           showMetrics: true,
+
+           theme: {
+            graph: { rankdir: "DT" },           
+          },
+  
         // theme: {
         //   graph: {
         //     /* use splines: "ortho" for straight lines. Be aware though

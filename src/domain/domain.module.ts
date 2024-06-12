@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
-import { AccountsModule } from './accounts/accounts.module';
-import { StockModule } from './stock/stock.module';
-import { SalesModule } from './sales/sales.module';
-import { ShippingModule } from './shipping/shipping.module';
-import { BillingModule } from './billing/billing.module';
+import { AccountsContextModule } from './accounts/accounts.module';
+import { StockContextModule } from './stock/stock.module';
+import { SalesContextModule } from './sales/sales.module';
+import { ShippingContextModule } from './shipping/shipping.module';
+import { BillingContextModule } from './billing/billing.module';
 
 @Module({
   imports: [
-    AccountsModule,
-    StockModule,
-    SalesModule,
-    ShippingModule,
-    BillingModule,
+    AccountsContextModule,
+    StockContextModule,
+    SalesContextModule,
+    ShippingContextModule,
+    BillingContextModule,
   ],
 })
 export class DomainModule {}

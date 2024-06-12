@@ -31,7 +31,7 @@ export class Product extends PublishableIdMixin(
 
   @Column()
   @IsNotEmpty()
-  stock_quantity: number;
+  stockQuantity: number;
 
   @Column()
   @IsNotEmpty()

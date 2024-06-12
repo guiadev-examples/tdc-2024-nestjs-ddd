@@ -24,7 +24,7 @@
     "typeorm": "node -r dotenv/config -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "typeorm:ds": "node -r dotenv/config -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js -d ./test/utils/database/datasource.ts",
     "fixtures": "fixtures-ts-node-commonjs --require=tsconfig-paths/register -d ./test/utils/database/datasource.ts load test/utils/fixtures/",
-    "dependency-graph": "npx depcruise src --include-only '^src' --config --output-type dot | dot -T svg > report/dependency-graph.svg"
+    "dependency-graph": "npx depcruise src --include-only '^src' --config --collapse 0 --output-type dot | dot -T svg > report/dependency-graph.svg"
   },
   "dependencies": {
     "@aws-sdk/client-sns": "^3.410.0",
