@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Transactional } from 'typeorm-transactional';
 import { Order } from './order.entity';
+import { Customer, CustomerProvider, CustomerService } from '@integration/accounts/accounts.interface';
 
 
 @Injectable()
@@ -10,6 +11,8 @@ export class OrderService {
   constructor(
     @InjectRepository(Order)
     private readonly repository: Repository<Order>,
+    @Inject(CustomerProvider)
+    private readonly accountsService: CustomerService,
   ) {}
 
   async findAll(): Promise<Order[]> {
@@ -24,6 +27,10 @@ export class OrderService {
 
   @Transactional()
   async create(order: Order): Promise<Order> {
+
+    const account: Customer = this.accountsService.getAccount('');
+
+
     return this.repository.save(order);
   }
 

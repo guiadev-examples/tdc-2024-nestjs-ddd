@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { PostalCodeModule } from './postal-code/postal-code.module';
+import { CustomerModule } from './accounts/customer.module';
 
 @Module({
-  imports: [PostalCodeModule],
+  imports: [CustomerModule],
 })
 export class IntegrationModule {}

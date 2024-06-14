@@ -4,10 +4,9 @@ import {
   TimestampableMixin,
 } from '@infra/database/base.entities';
 import { ArrayMinSize } from 'class-validator';
-import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity, OneToMany} from 'typeorm';
 import { OrderItem } from './order-item.entity';
-import { Customer } from '@domain/accounts/customer.entity';
-import { Address } from '@domain/accounts/address.entity';
+import { Customer, Address } from '@integration/accounts/customer.interface';
 
 @Entity({
   name: 'orders',
@@ -20,12 +19,7 @@ export class Order extends PublishableIdMixin(
     Object.assign(this, partial);
   }
 
-  @OneToOne(
-    () => Customer,    
-  )
-  @JoinColumn({
-    name: 'purchasing_customer_id',
-  })
+  @Column({ type: 'jsonb', nullable: false })
   purchasingCustomer: Customer;
   
   @Column({ type: 'jsonb', nullable: false })
