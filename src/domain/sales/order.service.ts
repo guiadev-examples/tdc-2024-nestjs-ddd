@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Transactional } from 'typeorm-transactional';
 import { Order } from './order.entity';
-import { Customer, CustomerProvider, CustomerService } from '@integration/accounts/accounts.interface';
+import { Customer, CustomerProvider, CustomerService } from '@integration/accounts/customer.interface';
 
 
 @Injectable()
@@ -28,7 +28,7 @@ export class OrderService {
   @Transactional()
   async create(order: Order): Promise<Order> {
 
-    const customer: Customer = this.accountsService.getCustomer('1234567890');
+    const customer: Customer = await this.accountsService.getCustomer('1234567890');
     order.purchasingCustomer = customer;
 
     return this.repository.save(order);
