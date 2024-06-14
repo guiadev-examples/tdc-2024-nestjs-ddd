@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
-export const EventPublisher = (eventName: string): MethodDecorator => {
+export const DomainEventPublisher = (eventName: string): MethodDecorator => {
   const injectEventEmitter = Inject(EventEmitter2);
 
   return (
