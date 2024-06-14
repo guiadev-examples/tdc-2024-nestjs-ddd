@@ -1,5 +1,5 @@
 export interface PostalCodeService {
-  getAddressByZipCode(cep: string): Promise<PostalCode>;
+  getAddressByPostalCode(cep: string): Promise<PostalCode>;
 }
 
 export const PostalCodeProvider = Symbol('PostalCodeService');

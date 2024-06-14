@@ -5,7 +5,7 @@ import { PostalCode, PostalCodeService } from '../postal-code.interface';
 
 @Injectable()
 export class BuscadorCepService implements PostalCodeService {
-  async getAddressByZipCode(cep: string): Promise<PostalCode> {
+  async getAddressByPostalCode(cep: string): Promise<PostalCode> {
     try {
       const address = await buscadorcep(cep);
       if (address.erro) {

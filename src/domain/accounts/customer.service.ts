@@ -30,7 +30,7 @@ export class CustomerService {
   @DomainEventPublisher("customer.created")
   async create(customer: Customer): Promise<Customer> {
 
-    this.populateAddressByZipCode(customer);
+    this.populateAddressByPostalCode(customer);
 
     return this.repository.save(customer);
   }
@@ -48,11 +48,11 @@ export class CustomerService {
     return this.repository.delete(customer.id);
   }
 
-  private async populateAddressByZipCode(customer: Customer) {
+  private async populateAddressByPostalCode(customer: Customer) {
     try {
 
       customer.addresses?.forEach(async (address) => {
-        const capturedAddress = await this.postalCodeService.getAddressByZipCode(
+        const capturedAddress = await this.postalCodeService.getAddressByPostalCode(
           address.postalCode,
         );
         capturedAddress.street = capturedAddress.street;
