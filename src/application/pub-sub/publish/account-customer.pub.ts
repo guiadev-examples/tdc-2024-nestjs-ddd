@@ -11,7 +11,7 @@ export class CustomerCompanyPub {
     private eventBus: EventBusService,
   ) {}
 
-  @OnEvent('company.created')
+  @OnEvent('customer.created')
   async handleCompanyCreatedEvent(customer: Customer) {
     const desctination = 'Accounts_Customer.fifo';
     const eventName = 'CREATED';
