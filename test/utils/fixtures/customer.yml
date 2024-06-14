@@ -1,0 +1,6 @@
+entity: Customer
+items:
+  customer1:
+    publicId: 'b40b40f2-7438-40ae-a310-a85361562526'
+    name: 'Customer 1'
+    socialIdentification: '123-45-6789'
