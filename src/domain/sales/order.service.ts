@@ -28,8 +28,8 @@ export class OrderService {
   @Transactional()
   async create(order: Order): Promise<Order> {
 
-    const account: Customer = this.accountsService.getAccount('');
-
+    const customer: Customer = this.accountsService.getCustomer('1234567890');
+    order.purchasingCustomer = customer;
 
     return this.repository.save(order);
   }
