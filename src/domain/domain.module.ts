@@ -5,7 +5,6 @@ import { CustomerModule } from '@integration/accounts/customer.module';
 @Module({
   imports: [    
     SalesContextModule,
-    forwardRef(() => CustomerModule)
   ],
 })
 export class DomainModule {}
