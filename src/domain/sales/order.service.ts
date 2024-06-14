@@ -12,7 +12,7 @@ export class OrderService {
     @InjectRepository(Order)
     private readonly repository: Repository<Order>,
     @Inject(CustomerProvider)
-    private readonly accountsService: CustomerService,
+    private readonly customerService: CustomerService,
   ) {}
 
   async findAll(): Promise<Order[]> {
@@ -28,7 +28,7 @@ export class OrderService {
   @Transactional()
   async create(order: Order): Promise<Order> {
 
-    const customer: Customer = await this.accountsService.getCustomer('1234567890');
+    const customer: Customer = await this.customerService.getCustomer('1234567890');
     order.purchasingCustomer = customer;
 
     return this.repository.save(order);

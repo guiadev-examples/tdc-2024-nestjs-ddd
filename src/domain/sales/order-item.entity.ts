@@ -5,7 +5,7 @@ import {
 import { IsNotEmpty } from 'class-validator';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { Order } from './order.entity';
-import { Product } from '@domain/stock/product.entity';
+import { Product } from './sold-product.entity';
 
 @Entity({
   name: 'order_items',
