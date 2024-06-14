@@ -5,7 +5,6 @@ import { Transactional } from 'typeorm-transactional';
 import { Customer } from './customer.entity';
 import { PostalCodeProvider, PostalCodeService } from '@integration/postal-code/postal-code.interface';
 import { BusinessError } from '@infra/errors/business.error';
-import { EventBusProvider } from '@infra/event/event-bus/event-bus.interface';
 import { DomainEventPublisher } from '@infra/event/event-publisher.decorator';
 
 @Injectable()
